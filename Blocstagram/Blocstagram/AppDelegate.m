@@ -24,6 +24,7 @@
     
     self.window.rootViewController = [[UINavigationController alloc]
                                       initWithRootViewController:[[ImagesTableViewController alloc] init]];
+    
     [self.window makeKeyAndVisible];
     
     return YES;

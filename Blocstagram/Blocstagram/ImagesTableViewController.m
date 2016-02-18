@@ -7,6 +7,7 @@
 //
 
 #import "ImagesTableViewController.h"
+#import "MediaTableViewCell.h"
 #import "DataSource.h"
 #import "Media.h"
 #import "User.h"
@@ -34,7 +35,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
+    [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
     
     
 }
@@ -56,39 +57,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell" forIndexPath:indexPath];
+    MediaTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mediaCell" forIndexPath:indexPath];
     
-    // Configure the cell...
- 
-    static NSInteger imageViewTag = 1234;
-    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:imageViewTag];
- 
-    if (!imageView) {
-        // This must be a new cell, so load an image view
-        imageView = [UIImageView new];
-        imageView.contentMode = UIViewContentModeScaleToFill;
-        
-        imageView.frame = cell.contentView.bounds;
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        
-        imageView.tag = imageViewTag;
-        [cell.contentView addSubview:imageView];
-        
-    }
+    cell.mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
     
-    // Reset the image (since the imageView may have been recycled
-    
-    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
-    imageView.image = item.image;
- 
     return cell;
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
-    UIImage *image = item.image;
-    return (CGRectGetWidth(self.view.frame) / image.size.width) * image.size.height;
+    return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
 }
 
 /*
