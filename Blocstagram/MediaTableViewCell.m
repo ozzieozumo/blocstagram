@@ -151,7 +151,7 @@ static NSParagraphStyle *paragraphStyle;
     
     if (self.mediaItem) {
         
-        // only if there is a mediaItem, set the frames of subviews
+        // only if there is a mediaItem, layout the subviews (if no media item, then probably not ready to display the table cell)
         
         // Before layout, calculate the intrinsic size of the labels (the size they "want" to be), and add 20 to the height for some vertical padding.
         CGSize maxSize = CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX);
@@ -160,7 +160,11 @@ static NSParagraphStyle *paragraphStyle;
         
         self.usernameAndCaptionLabelHeightConstraint.constant = usernameLabelSize.height + 20;
         self.commentLabelHeightConstraint.constant = commentLabelSize.height + 20;
-        self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+        if (self.mediaItem.image.size.width > 0 && CGRectGetWidth(self.contentView.bounds) > 0) {
+            self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+        } else {
+            self.imageHeightConstraint.constant = 0;
+        }
         
         // Hide the line between cells
         self.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds)/2.0, 0, CGRectGetWidth(self.bounds)/2.0);
