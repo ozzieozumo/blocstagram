@@ -234,21 +234,17 @@
         }
     }
     
-    [self willChangeValueForKey:@"mediaItems"];
-    _mediaItems = tmpMediaItems;
-    [self didChangeValueForKey:@"mediaItems"];
-    
     NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
     
     if (parameters[@"min_id"]) {
-        // This was a pull-to-refresh request
+        // This was a pull-to-refresh request, so add items at the beginning using insertObjects
         
         NSRange rangeOfIndexes = NSMakeRange(0, tmpMediaItems.count);
         NSIndexSet *indexSetOfNewObjects = [NSIndexSet indexSetWithIndexesInRange:rangeOfIndexes];
-        
         [mutableArrayWithKVO insertObjects:tmpMediaItems atIndexes:indexSetOfNewObjects];
+        
     } else if (parameters[@"max_id"]) {
-        // This was an infinite scroll request
+        // This was an infinite scroll request, so add items at the end using addObjects
         
         if (tmpMediaItems.count == 0) {
             // disable infinite scroll, since there are no more older messages
@@ -258,6 +254,8 @@
         }
     
     } else {
+        // this was an initial load or a full reload, so replace the mediaItems array and trigger a reload
+        
         [self willChangeValueForKey:@"mediaItems"];
         _mediaItems = tmpMediaItems;
         [self didChangeValueForKey:@"mediaItems"];
