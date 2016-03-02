@@ -61,9 +61,15 @@
                 if (storedMediaItems.count > 0) {
                     NSMutableArray *mutableMediaItems = [storedMediaItems mutableCopy];
                     
+                    
+                    
                     [self willChangeValueForKey:@"mediaItems"];
                     _mediaItems = mutableMediaItems;
                     [self didChangeValueForKey:@"mediaItems"];
+                    
+                    // A34 - check for new items
+                    
+                    [self requestNewItemsWithCompletionHandler:nil];
                     
                     for (Media* mediaItem in self.mediaItems) {
                         [self downloadImageForMediaItem:mediaItem];
