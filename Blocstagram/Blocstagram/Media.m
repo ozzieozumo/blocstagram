@@ -47,6 +47,27 @@
     return self;
 }
 
+- (UIActivityViewController *) shareViewFromMedia {
+    NSMutableArray *itemsToShare = [NSMutableArray array];
+    
+    if (self.caption.length > 0) {
+        [itemsToShare addObject:self.caption];
+    }
+    
+    if (self.image) {
+        [itemsToShare addObject:self.image];
+    }
+    
+    if (itemsToShare.count > 0) {
+        UIActivityViewController *shareVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        return shareVC;
+        
+    } else {
+        return nil;
+    }
+
+}
+
 #pragma mark - NSCoding
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder {

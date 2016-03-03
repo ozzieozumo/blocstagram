@@ -22,6 +22,8 @@
 
 - (instancetype) initWithDictionary:(NSDictionary *)mediaDictionary;
 
+- (UIActivityViewController *) shareViewFromMedia;
+
 
 
 @end

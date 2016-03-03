@@ -14,6 +14,7 @@
 @property (nonatomic, strong) Media *media;
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
+@property (nonatomic, strong) UIButton *shareButton;
 
 @end
 
@@ -36,6 +37,22 @@
     self.scrollView.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:self.scrollView];
+    
+    self.shareButton = [[UIButton alloc] init];
+    [self.shareButton setTitle:@"Share" forState:UIControlStateNormal];
+    [self.shareButton setBackgroundColor:[UIColor purpleColor]];
+    [self.shareButton sizeToFit];
+    [self.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    self.shareButton.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.view addSubview:self.shareButton];
+    
+    // Constrain the button to the top right corner of the scroll view
+    UILayoutGuide *margins = self.scrollView.layoutMarginsGuide;
+
+    [self.shareButton.topAnchor constraintEqualToAnchor:margins.topAnchor].active=YES;
+    [self.shareButton.trailingAnchor constraintEqualToAnchor:margins.trailingAnchor].active=YES;
+    
     
     
     self.imageView = [UIImageView new];
@@ -114,7 +131,7 @@
     [self centerScrollView];
 }
 
-#pragma mark - Gesture Recognizers
+#pragma mark - Gesture Recognizers and Button Handlers
 
 - (void) tapFired:(UITapGestureRecognizer *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -138,6 +155,16 @@
         [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
     }
 }
+
+- (IBAction)shareButtonPressed {
+    
+    UIActivityViewController *activityVC = [self.media shareViewFromMedia];
+    if (activityVC) {
+        [self presentViewController:activityVC animated:YES completion:nil];
+    }
+
+    
+} 
 
 /*
 #pragma mark - Navigation
