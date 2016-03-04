@@ -43,6 +43,17 @@
     
 }
 
+//- (void) imageCellLongPressAction:(MediaTableViewCell *) sender {
+//    UIActivityViewController *activityVC = [sender.mediaItem shareViewFromMedia];
+//    if (activityVC) {
+//        [self presentViewController:activityVC animated:YES completion:nil];
+//    }
+//    
+//    
+//}
+
+// - (void) imageCellLongPressAction:(id)sender withEvent:(UIEvent *) event
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

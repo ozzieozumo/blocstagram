@@ -243,8 +243,11 @@ static NSParagraphStyle *paragraphStyle;
 }
 
 - (void) longPressFired:(UILongPressGestureRecognizer *)sender {
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        [self.delegate cell:self didLongPressImageView:self.mediaImageView];
+//    if (sender.state == UIGestureRecognizerStateBegan) {
+//        [self.delegate cell:self didLongPressImageView:self.mediaImageView];
+//    }
+    if(![[UIApplication sharedApplication] sendAction:@selector(imageCellLongPressAction:) to:nil from:self forEvent:nil]) {
+        NSLog(@"Message wasn't handled");
     }
 }
 
