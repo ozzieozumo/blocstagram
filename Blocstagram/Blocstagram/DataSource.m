@@ -195,7 +195,9 @@
         
         [mutableParameters addEntriesFromDictionary:parameters];
         
-        [self.instagramOperationManager GET:@"users/self/feed"
+        NSLog(@"Parameters %@", mutableParameters);
+        
+        [self.instagramOperationManager GET:@"users/self/media/recent"
                                  parameters:mutableParameters
                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                         if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -215,9 +217,10 @@
 }
 
 - (void) parseDataFromFeedDictionary:(NSDictionary *) feedDictionary fromRequestWithParameters:(NSDictionary *)parameters {
-    //NSLog(@"%@", feedDictionary);
     
     NSArray *mediaArray = feedDictionary[@"data"];
+    
+    NSLog(@"Returned Data %@",feedDictionary);
     
     NSMutableArray *tmpMediaItems = [NSMutableArray array];
     
