@@ -195,7 +195,7 @@
         
         [mutableParameters addEntriesFromDictionary:parameters];
         
-        [self.instagramOperationManager GET:@"users/self/feed"
+        [self.instagramOperationManager GET:@"users/self/media/recent"
                                  parameters:mutableParameters
                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                         if ([responseObject isKindOfClass:[NSDictionary class]]) {
