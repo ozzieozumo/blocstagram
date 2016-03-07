@@ -164,16 +164,23 @@
 #pragma mark - MediaTableViewCellDelegate
 
 - (void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView {
+    NSLog(@"Tap gesture handled by delegate");
     MediaFullScreenViewController *fullScreenVC = [[MediaFullScreenViewController alloc] initWithMedia:cell.mediaItem];
-    
     [self presentViewController:fullScreenVC animated:YES completion:nil];
 }
 
 - (void) cell:(MediaTableViewCell *)cell didTwoFingerTapImageView:(UIImageView *)imageView {
-    // reload just the image that was two finger tapped
+    // the media item and the URL are ok, but the image is bad, e.g. didn't download properly
+    // on two finger tap, try to reload the image, assuming the URL is correct
+    
+    NSLog(@"Two finger tap gesture handled by delegate");
+    [[DataSource sharedInstance] downloadImageForMediaItem:cell.mediaItem];
 }
 
 - (void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView {
+    
+    NSLog(@"Two finger tap gesture handled by delegate");
+    
     NSMutableArray *itemsToShare = [NSMutableArray array];
     
     if (cell.mediaItem.caption.length > 0) {

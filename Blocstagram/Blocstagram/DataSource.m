@@ -229,7 +229,10 @@
         
         if (mediaItem) {
             [tmpMediaItems addObject:mediaItem];
-            [self downloadImageForMediaItem:mediaItem];;
+            
+            // A37 - for testing failed image downloads, just leave them all blank on initial load
+            
+            // [self downloadImageForMediaItem:mediaItem];;
         }
     }
     

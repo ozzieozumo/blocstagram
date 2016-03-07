@@ -83,6 +83,7 @@ static NSParagraphStyle *paragraphStyle;
         // Initialization code
         self.mediaImageView = [[UIImageView alloc] init];
         self.mediaImageView.userInteractionEnabled = YES;
+        self.mediaImageView.multipleTouchEnabled = YES;
         
         self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
         self.tapGestureRecognizer.delegate = self;
@@ -95,7 +96,11 @@ static NSParagraphStyle *paragraphStyle;
         self.twoFingerTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerTapFired:)];
         self.twoFingerTapGestureRecognizer.delegate = self;
         self.twoFingerTapGestureRecognizer.numberOfTouchesRequired = 2;
-        [self.mediaImageView addGestureRecognizer:self.twoFingerTapGestureRecognizer];
+        
+        // A37 - since we want this gesture to reload a missing image, we better add the recognizer to the content view
+        // and not the image view (which might be nil).
+        
+        [self.contentView addGestureRecognizer:self.twoFingerTapGestureRecognizer];
 
         
         self.usernameAndCaptionLabel = [[UILabel alloc] init];
@@ -244,13 +249,16 @@ static NSParagraphStyle *paragraphStyle;
 #pragma mark - Image View
 
 - (void) tapFired:(UITapGestureRecognizer *)sender {
-    [self.delegate cell:self didTwoFingerTapImageView:self.mediaImageView];
-    
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [self.delegate cell:self didTapImageView:self.mediaImageView];
+    }
 }
 
 - (void) twoFingerTapFired:(UITapGestureRecognizer *)sender {
-    [self.delegate cell:self didTapImageView:self.mediaImageView];
     
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [self.delegate cell:self didTwoFingerTapImageView:self.mediaImageView];
+    }
 }
 
 - (void) longPressFired:(UILongPressGestureRecognizer *)sender {
