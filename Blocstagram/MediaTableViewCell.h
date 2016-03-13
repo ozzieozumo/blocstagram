@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 @class Media, MediaTableViewCell;
 
+
 @protocol MediaTableViewCellDelegate <NSObject>
 
 - (void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView;
@@ -24,3 +25,4 @@
 + (CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width;
 
 @end
+

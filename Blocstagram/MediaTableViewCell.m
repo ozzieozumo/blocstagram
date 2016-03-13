@@ -33,6 +33,8 @@ static UIColor *commentLabelGray;
 static UIColor *linkColor;
 static NSParagraphStyle *paragraphStyle;
 
+static const int kDefaultImageHeight = 150;  // assume this height if image is not present, e.g. still downloading
+
 
 @implementation MediaTableViewCell
 
@@ -71,7 +73,12 @@ static NSParagraphStyle *paragraphStyle;
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
-    return CGRectGetMaxY(layoutCell.commentLabel.frame);
+    // A38 - if there is no image, add a default height for more realistic spacing
+    if (mediaItem.image) {
+        return CGRectGetMaxY(layoutCell.commentLabel.frame);
+    } else {
+        return CGRectGetMaxY(layoutCell.commentLabel.frame) + kDefaultImageHeight;
+    }
     
 }
 

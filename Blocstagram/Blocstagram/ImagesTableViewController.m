@@ -16,6 +16,8 @@
 
 @interface ImagesTableViewController () <MediaTableViewCellDelegate>
 
+@property (nonatomic, assign) BOOL isReadyForImageDownload;
+
 @end
 
 @implementation ImagesTableViewController
@@ -23,6 +25,7 @@
 
 - (id) initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
+    self.isReadyForImageDownload = YES;
     return self;
 }
 
@@ -73,14 +76,6 @@
     return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
 }
 
-- (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
-    if (item.image) {
-        return 350;
-    } else {
-        return 150;
-    }
-}
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == [DataSource sharedInstance] && [keyPath isEqualToString:@"mediaItems"]) {
@@ -137,9 +132,6 @@
     }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self infiniteScrollIfNecessary];
-}
 
 /*
 // Override to support conditional editing of the table view.
@@ -186,10 +178,30 @@
     }
 }
 
+
+// A38 - use deceleration event to suppress image download during scrolling
+//       Basically, it is ok to start downloading the images once the deceleration event has been received
+//       Otherwise, don't download an image during the dragging phase of the scroll
+
+- (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.isReadyForImageDownload = NO;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    self.isReadyForImageDownload = YES;
+    [self infiniteScrollIfNecessary];
+}
+
+- (void) scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    self.isReadyForImageDownload = YES;
+}
+
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
-        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+    if (self.isReadyForImageDownload) {
+        Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
+        if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
+            [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+        }
     }
 }
 
