@@ -29,6 +29,9 @@
 		A78DF83B1C73BEA9006FFCC3 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = A78DF83A1C73BEA9006FFCC3 /* Comment.m */; };
 		A78DF83E1C73BF26006FFCC3 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A78DF83D1C73BF26006FFCC3 /* DataSource.m */; };
 		A79D6DAD1C74EDAE00A1B078 /* MediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A79D6DAC1C74EDAE00A1B078 /* MediaTableViewCell.m */; };
+		A7B1A0461C97267A00FE2115 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7B1A0451C97267A00FE2115 /* Images.xcassets */; };
+		A7B1A0491C97272700FE2115 /* CircleSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1A0481C97272700FE2115 /* CircleSpinnerView.m */; };
+		A7B1A04C1C9728F000FE2115 /* LikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1A04B1C9728F000FE2115 /* LikeButton.m */; };
 		A7CB75191C8891D8003F1716 /* MediaFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CB75181C8891D8003F1716 /* MediaFullScreenViewController.m */; };
 		A7DD47411C7DF3F2000C4955 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7DD47401C7DF3F2000C4955 /* LoginViewController.m */; };
 		D382147981DBE420C6370E42 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 864B33AEDFB7CA750FAF3296 /* libPods.a */; };
@@ -88,6 +91,11 @@
 		A78DF83D1C73BF26006FFCC3 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
 		A79D6DAB1C74EDAE00A1B078 /* MediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaTableViewCell.h; path = ../MediaTableViewCell.h; sourceTree = "<group>"; };
 		A79D6DAC1C74EDAE00A1B078 /* MediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaTableViewCell.m; path = ../MediaTableViewCell.m; sourceTree = "<group>"; };
+		A7B1A0451C97267A00FE2115 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A7B1A0471C97272700FE2115 /* CircleSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleSpinnerView.h; sourceTree = "<group>"; };
+		A7B1A0481C97272700FE2115 /* CircleSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleSpinnerView.m; sourceTree = "<group>"; };
+		A7B1A04A1C9728F000FE2115 /* LikeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikeButton.h; sourceTree = "<group>"; };
+		A7B1A04B1C9728F000FE2115 /* LikeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeButton.m; sourceTree = "<group>"; };
 		A7CB75171C8891D8003F1716 /* MediaFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaFullScreenViewController.h; sourceTree = "<group>"; };
 		A7CB75181C8891D8003F1716 /* MediaFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaFullScreenViewController.m; sourceTree = "<group>"; };
 		A7DD473F1C7DF3F2000C4955 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -174,6 +182,10 @@
 				A78DF83D1C73BF26006FFCC3 /* DataSource.m */,
 				A79D6DAB1C74EDAE00A1B078 /* MediaTableViewCell.h */,
 				A79D6DAC1C74EDAE00A1B078 /* MediaTableViewCell.m */,
+				A7B1A0471C97272700FE2115 /* CircleSpinnerView.h */,
+				A7B1A0481C97272700FE2115 /* CircleSpinnerView.m */,
+				A7B1A04A1C9728F000FE2115 /* LikeButton.h */,
+				A7B1A04B1C9728F000FE2115 /* LikeButton.m */,
 				A78DF7F31C727C58006FFCC3 /* Assets.xcassets */,
 				A78DF7F51C727C58006FFCC3 /* LaunchScreen.storyboard */,
 				A78DF7F81C727C58006FFCC3 /* Info.plist */,
@@ -212,6 +224,7 @@
 		A78DF81B1C72804D006FFCC3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A7B1A0451C97267A00FE2115 /* Images.xcassets */,
 				A78DF81C1C7280E7006FFCC3 /* 1.jpg */,
 				A78DF81D1C7280E7006FFCC3 /* 2.jpg */,
 				A78DF81E1C7280E7006FFCC3 /* 3.jpg */,
@@ -343,6 +356,7 @@
 				A78DF82E1C7280E7006FFCC3 /* 9.jpg in Resources */,
 				A78DF82D1C7280E7006FFCC3 /* 8.jpg in Resources */,
 				A78DF8291C7280E7006FFCC3 /* 4.jpg in Resources */,
+				A7B1A0461C97267A00FE2115 /* Images.xcassets in Resources */,
 				A78DF8281C7280E7006FFCC3 /* 3.jpg in Resources */,
 				A78DF82B1C7280E7006FFCC3 /* 6.jpg in Resources */,
 				A78DF8261C7280E7006FFCC3 /* 1.jpg in Resources */,
@@ -425,12 +439,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7CB75191C8891D8003F1716 /* MediaFullScreenViewController.m in Sources */,
+				A7B1A0491C97272700FE2115 /* CircleSpinnerView.m in Sources */,
 				A78DF8351C73BCEB006FFCC3 /* User.m in Sources */,
 				A78DF83B1C73BEA9006FFCC3 /* Comment.m in Sources */,
 				A79D6DAD1C74EDAE00A1B078 /* MediaTableViewCell.m in Sources */,
 				A78DF8381C73BD7D006FFCC3 /* Media.m in Sources */,
 				A78DF7EC1C727C58006FFCC3 /* AppDelegate.m in Sources */,
 				A7DD47411C7DF3F2000C4955 /* LoginViewController.m in Sources */,
+				A7B1A04C1C9728F000FE2115 /* LikeButton.m in Sources */,
 				A78DF83E1C73BF26006FFCC3 /* DataSource.m in Sources */,
 				A78DF7E91C727C58006FFCC3 /* main.m in Sources */,
 				A78DF8321C7281E4006FFCC3 /* ImagesTableViewController.m in Sources */,
