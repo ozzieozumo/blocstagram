@@ -14,6 +14,8 @@
 #import <UICKeyChainStore.h>
 #import <AFNetworking.h>
 
+static const NSString * IGUser = @"self";
+
 @interface DataSource() {
     NSMutableArray * _mediaItems;
 }
@@ -24,6 +26,7 @@
 @property (nonatomic, assign) BOOL thereAreNoMoreOlderMessages;
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *instagramOperationManager;
+@property (nonatomic, strong) NSDictionary * sandboxUsers;
 
 @end
 
@@ -47,6 +50,10 @@
 
 - (instancetype) init {
     self = [super init];
+    
+    self.sandboxUsers = @{ @"lukedeverett" : @"2970223523",
+                           @"umaneverett"  : @"2979876104",
+                           @"timnstagram"  : @"39519067" };
     
     [self createOperationManager];
     self.accessToken = [UICKeyChainStore stringForKey:@"access token"];
@@ -88,6 +95,17 @@
     }];
 }
 
+- (NSString *) userIdForUserName:(NSString *)username {
+    // try to look up the user id in the dictionary, otherwise return self
+    
+    NSString * userid = self.sandboxUsers[username];
+    
+    if (userid) {
+        return userid;
+    } else {
+        return @"self";
+    }
+}
 
 - (void) createOperationManager {
     NSURL *baseURL = [NSURL URLWithString:@"https://api.instagram.com/v1/"];
@@ -191,7 +209,10 @@
         
         [mutableParameters addEntriesFromDictionary:parameters];
         
-        [self.instagramOperationManager GET:@"users/self/media/recent"
+        
+        NSString * endPoint = [NSString stringWithFormat:@"users/%@/media/recent", [self userIdForUserName: (NSString *)IGUser]];
+        
+        [self.instagramOperationManager GET:endPoint
                                  parameters:mutableParameters
                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                         if ([responseObject isKindOfClass:[NSDictionary class]]) {
@@ -221,8 +242,21 @@
         Media *mediaItem = [[Media alloc] initWithDictionary:mediaDictionary];
         
         if (mediaItem) {
+            [self countLikesOnMediaItem:mediaItem withCompletionHandler:^(NSUInteger count) {
+                mediaItem.likeCount = count;
+                
+                // the GET of the likes is performed asynchronously, so in the completion handler, use KVO to signal a replacement operation
+                // this should cause the table view controller to redisplay the cell
+                
+                NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+                NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+                [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
+                
+                
+            }];
             [tmpMediaItems addObject:mediaItem];
         }
+        
     }
     
     NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
@@ -346,6 +380,7 @@
         
         [self.instagramOperationManager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             mediaItem.likeState = LikeStateLiked;
+            mediaItem.likeCount++;
             
             if (completionHandler) {
                 completionHandler();
@@ -364,6 +399,7 @@
         
         [self.instagramOperationManager DELETE:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             mediaItem.likeState = LikeStateNotLiked;
+            mediaItem.likeCount--;
             
             if (completionHandler) {
                 completionHandler();
@@ -376,6 +412,36 @@
             }
         }];
     }
+}
+
+// Invoke the media/likes endpoint to get the array of users liking the media item.  Return the count via the completion handler
+
+- (void) countLikesOnMediaItem:(Media *) mediaItem withCompletionHandler:(void (^)(NSUInteger count))completionHandler {
+    NSString *urlString = [NSString stringWithFormat:@"media/%@/likes", mediaItem.idNumber];
+    NSDictionary *parameters = @{@"access_token": self.accessToken};
+    
+    [self.instagramOperationManager GET:urlString parameters:parameters
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              
+              if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                  NSArray *likingUsers = responseObject[@"data"];
+                  if (likingUsers) {
+                      if (completionHandler) {
+                          completionHandler(likingUsers.count);
+                      }
+                  } else {
+                      NSLog(@"GET of Likes did not return a data array");
+                  }
+              } else {
+                  NSLog(@"GET of Likes did not return a Dictionary");
+              }
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            NSLog(@"Error: %@, %@", error, [error userInfo]);
+            
+    }];
+              
 }
 
 
