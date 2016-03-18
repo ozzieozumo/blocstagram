@@ -378,5 +378,60 @@
     }
 }
 
+#pragma mark - Comments
+
+- (void) commentOnMediaItem:(Media *)mediaItem withCommentText:(NSString *)commentText {
+    if (!commentText || commentText.length == 0) {
+        return;
+    }
+    
+    NSString *urlString = [NSString stringWithFormat:@"media/%@/comments", mediaItem.idNumber];
+    NSDictionary *parameters = @{@"access_token": self.accessToken, @"text": commentText};
+    
+    [self.instagramOperationManager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        mediaItem.temporaryComment = nil;
+        
+        //CP40 - having successfully posted a new comment, we should GET the updated list of comments.
+        // The sample code in the checkpoint didn't make sense to me -- it was getting the media item but not the comments
+        // because the media endpoint does not return an array of comments it only returns the count
+        // The init code has a similar flaw and needs to hit this endpoint to get the comments
+        
+        NSString *refreshMediaUrlString = [NSString stringWithFormat:@"media/%@/comments", mediaItem.idNumber];
+        NSDictionary *parameters = @{@"access_token": self.accessToken};
+        [self.instagramOperationManager GET:refreshMediaUrlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            //Media *newMediaItem = [[Media alloc] initWithDictionary:responseObject[@"data"]];
+            
+            NSMutableArray *commentsArray = [NSMutableArray array];
+            
+            for (NSDictionary *commentDictionary in responseObject[@"data"]) {
+                Comment *comment = [[Comment alloc] initWithDictionary:commentDictionary];
+                [commentsArray addObject:comment];
+            }
+
+            // Now replace the list of comments
+            mediaItem.comments = commentsArray;
+            
+            // and signal that a cell has been updated
+            
+            NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+            NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+            [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self reloadMediaItem:mediaItem];
+        }];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        NSLog(@"Response: %@", operation.responseString);
+        [self reloadMediaItem:mediaItem];
+    }];
+}
+
+- (void) reloadMediaItem:(Media *)mediaItem {
+    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+    NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
+    [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
+}
+
+
 
 @end

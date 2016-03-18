@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A73EFDAE1C9BC4070001AE22 /* ComposeCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A73EFDAD1C9BC4070001AE22 /* ComposeCommentView.m */; };
 		A78DF7E91C727C58006FFCC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A78DF7E81C727C58006FFCC3 /* main.m */; };
 		A78DF7EC1C727C58006FFCC3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A78DF7EB1C727C58006FFCC3 /* AppDelegate.m */; };
 		A78DF7F41C727C58006FFCC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A78DF7F31C727C58006FFCC3 /* Assets.xcassets */; };
@@ -56,6 +57,8 @@
 
 /* Begin PBXFileReference section */
 		864B33AEDFB7CA750FAF3296 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A73EFDAC1C9BC4070001AE22 /* ComposeCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComposeCommentView.h; sourceTree = "<group>"; };
+		A73EFDAD1C9BC4070001AE22 /* ComposeCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComposeCommentView.m; sourceTree = "<group>"; };
 		A78DF7E41C727C58006FFCC3 /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78DF7E81C727C58006FFCC3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A78DF7EA1C727C58006FFCC3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -186,6 +189,8 @@
 				A7B1A0481C97272700FE2115 /* CircleSpinnerView.m */,
 				A7B1A04A1C9728F000FE2115 /* LikeButton.h */,
 				A7B1A04B1C9728F000FE2115 /* LikeButton.m */,
+				A73EFDAC1C9BC4070001AE22 /* ComposeCommentView.h */,
+				A73EFDAD1C9BC4070001AE22 /* ComposeCommentView.m */,
 				A78DF7F31C727C58006FFCC3 /* Assets.xcassets */,
 				A78DF7F51C727C58006FFCC3 /* LaunchScreen.storyboard */,
 				A78DF7F81C727C58006FFCC3 /* Info.plist */,
@@ -448,6 +453,7 @@
 				A7DD47411C7DF3F2000C4955 /* LoginViewController.m in Sources */,
 				A7B1A04C1C9728F000FE2115 /* LikeButton.m in Sources */,
 				A78DF83E1C73BF26006FFCC3 /* DataSource.m in Sources */,
+				A73EFDAE1C9BC4070001AE22 /* ComposeCommentView.m in Sources */,
 				A78DF7E91C727C58006FFCC3 /* main.m in Sources */,
 				A78DF8321C7281E4006FFCC3 /* ImagesTableViewController.m in Sources */,
 			);
